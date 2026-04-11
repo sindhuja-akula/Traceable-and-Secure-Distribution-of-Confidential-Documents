@@ -1,3 +1,7 @@
+# ==========================================
+# Core Project Rules (Local)
+# ==========================================
+
 # Environment and Secrets
 .env
 .env.local
@@ -5,6 +9,7 @@
 .env.test.local
 .env.production.local
 *.env
+.envrc
 
 # Python
 __pycache__/
@@ -19,6 +24,16 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+cover/
 build/
 develop-eggs/
 dist/
@@ -36,16 +51,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-dist/
-dist-ssr/
-*.local
 
 # Diagnostic and Test Scripts (Root)
 test_*.py
@@ -69,6 +74,17 @@ DEBUG_MODELS.txt
 DEBUG_MODELS_2.txt
 final_model_names.txt
 models_for_gen_content.txt
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist-ssr/
+*.local
 
 # Application Data and Generated Files
 uploads/
@@ -85,3 +101,50 @@ uploads/
 *.sw?
 Thumbs.db
 desktop.ini
+
+# ==========================================
+# General Patterns (Merged from Remote)
+# ==========================================
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Translations
+*.mo
+*.pot
+
+# Django/Flask/Scrapy/Jupyter
+instance/
+.webassets-cache
+.scrapy
+docs/_build/
+.pybuilder/
+target/
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# Database journals
+db.sqlite3-journal
+
+# Type Checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+cython_debug/
+.ruff_cache/
+
+# AI/Editor Specific
+.abstra/
+.cursorignore
+.cursorindexingignore
+__marimo__/
