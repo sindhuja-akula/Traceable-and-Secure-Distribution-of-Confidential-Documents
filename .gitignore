@@ -1,0 +1,87 @@
+# Environment and Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.pyo
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+dist-ssr/
+*.local
+
+# Diagnostic and Test Scripts (Root)
+test_*.py
+check_*.py
+debug_*.py
+diagnose_*.py
+list_models_*.py
+find_akula.py
+inspect_db.py
+proof_of_logic.py
+add_processing_step.py
+
+# Logs and Debug Output
+*.log
+startup_error.txt
+startup_log.txt
+diag_output.txt
+logs_output.txt
+test_results.txt
+DEBUG_MODELS.txt
+DEBUG_MODELS_2.txt
+final_model_names.txt
+models_for_gen_content.txt
+
+# Application Data and Generated Files
+uploads/
+*.pdf
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
+desktop.ini
