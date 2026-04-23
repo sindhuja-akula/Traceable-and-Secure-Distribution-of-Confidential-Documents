@@ -14,6 +14,18 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 def _build_database_url() -> str:
+    # 1. Check for a direct DATABASE_URL (common on Render/Heroku)
+    url = os.getenv("DATABASE_URL")
+    if url:
+        # SQLAlchemy requires 'postgresql://' or 'postgresql+asyncpg://'
+        # Render/Heroku often provide 'postgres://'
+        if url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql+asyncpg://", 1)
+        elif url.startswith("postgresql://"):
+            url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return url
+
+    # 2. Fallback to manual construction
     user     = os.getenv("DB_USER", "postgres")
     password = os.getenv("DB_PASSWORD", "")
     host     = os.getenv("DB_HOST", "127.0.0.1")
