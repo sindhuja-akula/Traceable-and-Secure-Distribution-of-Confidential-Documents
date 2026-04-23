@@ -1,179 +1,73 @@
-Secure PDF Distribution and Traceability System
-# Project Overview
+# Secure PDF Distribution and Traceability System
 
-In academic, corporate, and creative domains, confidential documents such as scripts, evaluation materials, and internal reports are often shared digitally with multiple reviewers. Once distributed, controlling unauthorized sharing and identifying data leaks becomes extremely difficult.
+This project is a professional-grade secure document distribution platform that uses AI-powered semantic watermarking, diagonal email overlays, and invisible metadata fingerprints to ensure document traceability and prevent unauthorized leaks.
 
-This project proposes a Secure PDF Distribution and Traceability System that allows a document owner to generate protected PDFs, distribute them to multiple recipients via email, and track delivery while embedding unique traceable identifiers into each PDF. If a document is leaked, the embedded identifiers help trace the source of leakage.
+## 🚀 Quick Setup for Team Members (Windows)
 
-The system focuses on document security, controlled access, traceability, and automated email delivery at a college-project scope.
+If you have just cloned the repository, follow these steps:
 
-# Objectives
+1. **Install Node.js & Python**: Ensure you have Node.js (v18+) and Python (3.11 or 3.12 recommended) installed.
+2. **Run Automatic Setup**: 
+   - Double-click the `setup.bat` file in the project folder.
+   - **OR** run `npm run setup` in your terminal.
+3. **Start the Application**: 
+   - Run `npm start` in the terminal.
+   - The **Frontend** will be at: `http://localhost:5173`
+   - The **Backend** will be at: `http://localhost:8000`
 
-Convert user-provided text into a secured PDF
+---
 
-Apply watermarking and metadata-based traceability
+## 🛠 Troubleshooting Common Issues
 
-Protect PDFs using per-recipient passwords
+### ❌ Error: "Failed to build asyncpg" or "Building wheels"
+This usually happens because `asyncpg` (the database driver) needs to be compiled, but your computer lacks the necessary tools.
+- **Fix 1 (Recommended):** Use **Python 3.11 or 3.12**. These versions have pre-built versions of `asyncpg` that don't need compilation on Windows.
+- **Fix 2:** Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) and select "Desktop development with C++".
+- **Fix 3:** Try installing a slightly older version that might have a wheel for your Python version:
+  ```bash
+  .\.venv\Scripts\python.exe -m pip install asyncpg==0.29.0
+  ```
 
-Distribute PDFs via automated email delivery
+### ❌ Error: "Pip 26.0.1 is available"
+This is just a notification. Your current pip version will work fine. To make the message go away, run:
+```bash
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+```
 
-Track email delivery status and retry failed emails
+---
 
-Maintain logs for auditing and traceability
+## 🏗 System Architecture
 
-# System Architecture
+The application is built using a modern, high-performance stack:
 
-The application follows a modular architecture:
+- **Frontend:** React.js (Vite) + Tailwind CSS (Premium 3D Aesthetics)
+- **Backend:** Python FastAPI (Asynchronous performance)
+- **Database:** PostgreSQL (with SQLAlchemy Async)
+- **AI Engine:** Google Gemini AI (for semantic paraphrasing and leak detection)
+- **PDF Engine:** ReportLab & PyMuPDF (for watermarking and security)
 
-Frontend (Web Browser)
-        ↓
-Backend (Python + Flask)
-        ↓
-Database (SQLite)
-        ↓
-PDF Engine + Email Engine
+## 🔒 Key Security Features
 
+- **Semantic Fingerprinting:** Every recipient receives a uniquely paraphrased version of the document.
+- **Diagonal Watermarking:** Recipient's email is tiled across every page of the document.
+- **Access Logs:** Every attempt to copy, print, or view is logged and notified.
+- **Leak Detection Hub:** Upload a leaked snippet to identify exactly which recipient it came from.
 
-Each module has a clearly defined responsibility to ensure scalability and maintainability.
+---
 
-# Workflow Summary
+## 📁 Project Structure
 
-User enters content and recipient email addresses through the frontend
+```text
+root/
+├── frontend/               # React + Vite application
+├── backend/                # FastAPI application
+├── .venv/                  # Python Virtual Environment (created after setup)
+├── setup.bat               # One-click setup for Windows
+├── package.json            # Root configuration & scripts
+└── run.py                  # Backend entry point
+```
 
-Backend receives data via HTTP POST
+## 👥 Team Information
 
-A unique Job ID is created
-
-For each recipient:
-
-Unique Trace ID and password are generated
-
-Recipient details are stored in the database
-
-PDF is generated with:
-
-Watermark
-
-Embedded metadata (Trace ID)
-
-Password protection
-
-PDF is emailed to recipients
-
-Email delivery status is logged
-
-Failed emails are retried automatically
-
-Final status is returned to the user
-
-# Security & Traceability Features
-
-Watermarking: Visible identifier (email/phone/name)
-
-Metadata Embedding: Invisible Trace ID stored inside PDF metadata
-
-Password Protection: Unique password per recipient
-
-Access Control: Only intended recipients can open the document
-
-Leak Detection: Extract metadata from leaked PDFs to identify source
-
-# Key Features
-
-Secure text-to-PDF conversion
-
-Per-user PDF password generation
-
-Metadata-based traceability
-
-Automated bulk email distribution
-
-Email delivery tracking and retry mechanism
-
-Centralized logging using database
-
-College-level implementation with real-world relevance
-
-# Technologies Used
-Frontend
-
-HTML
-
-CSS
-
-Basic JavaScript
-
-Backend
-
-Python
-
-Flask (Web Framework)
-
-Database
-
-SQLite
-
-PDF Processing
-
-ReportLab (PDF generation)
-
-PyPDF2 (PDF manipulation & encryption)
-
-Email Service
-
-SMTP (Gmail or institutional email)
-
- # Database Schema (High Level)
-
-Users / Owner
-
-Jobs
-
-Recipients
-
-Trace IDs
-
-Passwords
-
-Email Delivery Logs
-
-# Project Structure (Proposed)
-project-root/
-│
-├── app.py                # Flask application
-├── database.db           # SQLite database
-├── templates/            # HTML files
-├── static/               # CSS & JS
-├── pdf_engine/           # PDF creation & security
-├── email_engine/         # Email sending & retry logic
-├── utils/                # Helper functions
-├── README.md             # Project documentation
-└── requirements.txt      # Dependencies
-
-
-
-# Team Information
-
-Team Size: 4 Members
-
-Project Duration: 4 Months
-
-Level: College / Academic Project
-
-# Academic Relevance
-
-This project demonstrates concepts from:
-
-Web Development
-
-Database Management Systems
-
-Information Security
-
-Software Engineering
-
-Distributed Systems
-
-# Conclusion
-
-The Secure PDF Distribution and Traceability System provides a practical approach to document security and controlled sharing. While designed at a college-project level, the architecture and concepts closely align with real-world digital rights management systems, making it both educational and industry-relevant.
+- **Level:** College / Academic Project
+- **Scope:** Secure Digital Rights Management (DRM)

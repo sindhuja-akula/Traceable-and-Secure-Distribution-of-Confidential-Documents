@@ -27,6 +27,10 @@ logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
+# Ensure upload directory exists before mounting static files
+if not os.path.exists(settings.UPLOAD_DIR):
+    os.makedirs(settings.UPLOAD_DIR)
+
 app = FastAPI(
     title="Secure Document Distribution API",
     description="Backend for secure document fingerprinting and tracking.",
@@ -45,11 +49,6 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     logger.info("Starting up...")
-    # Create the upload directory if it doesn't exist
-    if not os.path.exists(settings.UPLOAD_DIR):
-        os.makedirs(settings.UPLOAD_DIR)
-        logger.info(f"Created upload directory: {settings.UPLOAD_DIR}")
-    
     # Create database tables
     try:
         await create_tables()
