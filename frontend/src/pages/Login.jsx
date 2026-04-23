@@ -130,8 +130,13 @@ export default function Login() {
               {mode === 'register' && (
                 <div className="form-group">
                   <label className="form-label">Confirm Password</label>
-                  <input type={showPassword ? "text" : "password"} className="form-input" placeholder="Repeat password" 
-                    value={confirmPass} onChange={e => setConfirmPass(e.target.value)} required />
+                  <div className="password-input-wrapper">
+                    <input type={showPassword ? "text" : "password"} className="form-input" placeholder="Repeat password" 
+                      value={confirmPass} onChange={e => setConfirmPass(e.target.value)} required />
+                    <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -190,8 +195,13 @@ export default function Login() {
               <form onSubmit={handleResetFinal} className="login-form">
                 <div className="form-group">
                   <label className="form-label">New Password</label>
-                  <input type="password" className="form-input" placeholder="Min. 8 characters" 
-                    value={newPass} onChange={e => setNewPass(e.target.value)} required autoFocus />
+                  <div className="password-input-wrapper">
+                    <input type={showPassword ? "text" : "password"} className="form-input" placeholder="Min. 8 characters" 
+                      value={newPass} onChange={e => setNewPass(e.target.value)} required autoFocus />
+                    <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
                 </div>
                 <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
                   {loading ? 'Resetting...' : 'Update Password'}
@@ -215,9 +225,19 @@ export default function Login() {
         .login-switch { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
         .btn-link { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 14px; font-weight: 600; padding: 0; }
         .btn-link:hover { color: var(--accent-hover); text-decoration: underline; }
-        .password-input-wrapper { position: relative; display: flex; align-items: center; }
-        .password-toggle { position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+        .password-input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
+        .password-input-wrapper .form-input { padding-right: 48px; width: 100%; }
+        .password-toggle { 
+          position: absolute; right: 4px; 
+          background: none; border: none; 
+          color: var(--text-muted); cursor: pointer; 
+          font-size: 18px; padding: 8px; 
+          display: flex; align-items: center; justify-content: center; 
+          z-index: 10; user-select: none;
+          -webkit-tap-highlight-color: transparent;
+        }
         .password-toggle:hover { color: var(--text-primary); }
+        input::-ms-reveal, input::-ms-clear { display: none; }
         .reset-flow { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>

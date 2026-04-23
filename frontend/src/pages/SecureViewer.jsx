@@ -12,6 +12,7 @@ export default function SecureViewer() {
   const [warning, setWarning] = useState('');
   const [warningCount, setWarningCount] = useState(0);
   const [blocked, setBlocked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const openedAt = useRef(Date.now());
   const warningTimer = useRef(null);
 
@@ -94,7 +95,12 @@ export default function SecureViewer() {
         <form onSubmit={handleAccess} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="form-group">
             <label className="form-label">Access Password</label>
-            <input id="doc-password-input" type="password" className="form-input" placeholder="Enter password from email" value={password} onChange={e => setPassword(e.target.value)} autoFocus required />
+            <div className="password-input-wrapper">
+              <input id="doc-password-input" type={showPassword ? "text" : "password"} className="form-input" placeholder="Enter password from email" value={password} onChange={e => setPassword(e.target.value)} autoFocus required />
+              <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
           </div>
           <button id="access-doc-btn" type="submit" className="btn btn-primary btn-lg" disabled={loading}>
             {loading ? <><span className="spinner" /> Verifying...</> : 'Access Document →'}
@@ -104,6 +110,19 @@ export default function SecureViewer() {
       <style>{`
         .viewer-gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
         .viewer-gate-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; width: 100%; max-width: 380px; }
+        .password-input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
+        .password-input-wrapper .form-input { padding-right: 48px; width: 100%; }
+        .password-toggle { 
+          position: absolute; right: 4px; 
+          background: none; border: none; 
+          color: var(--text-muted); cursor: pointer; 
+          font-size: 18px; padding: 8px; 
+          display: flex; align-items: center; justify-content: center; 
+          z-index: 10; user-select: none;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .password-toggle:hover { color: var(--text-primary); }
+        input::-ms-reveal, input::-ms-clear { display: none; }
       `}</style>
     </div>
   );
