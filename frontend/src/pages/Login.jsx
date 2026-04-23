@@ -17,6 +17,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -116,14 +117,19 @@ export default function Login() {
                       onClick={() => setResetStep('email')}>Forgot Password?</button>
                   )}
                 </div>
-                <input type="password" className="form-input" placeholder="Min. 8 characters" 
-                  value={password} onChange={e => setPassword(e.target.value)} required />
+                <div className="password-input-wrapper">
+                  <input type={showPassword ? "text" : "password"} className="form-input" placeholder="Min. 8 characters" 
+                    value={password} onChange={e => setPassword(e.target.value)} required />
+                  <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                  </button>
+                </div>
               </div>
 
               {mode === 'register' && (
                 <div className="form-group">
                   <label className="form-label">Confirm Password</label>
-                  <input type="password" className="form-input" placeholder="Repeat password" 
+                  <input type={showPassword ? "text" : "password"} className="form-input" placeholder="Repeat password" 
                     value={confirmPass} onChange={e => setConfirmPass(e.target.value)} required />
                 </div>
               )}
@@ -208,6 +214,9 @@ export default function Login() {
         .login-switch { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
         .btn-link { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 14px; font-weight: 600; padding: 0; }
         .btn-link:hover { color: var(--accent-hover); text-decoration: underline; }
+        .password-input-wrapper { position: relative; display: flex; align-items: center; }
+        .password-toggle { position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+        .password-toggle:hover { color: var(--text-primary); }
         .reset-flow { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>

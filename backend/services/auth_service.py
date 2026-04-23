@@ -22,13 +22,14 @@ async def register_user(db: AsyncSession, data: UserCreate) -> User:
             )
 
         # 2. Check for existing user
-        existing = await db.execute(select(User).where(User.email == data.email))
+        email_lower = data.email.lower().strip()
+        existing = await db.execute(select(User).where(User.email == email_lower))
         if existing.scalar_one_or_none():
             raise HTTPException(status_code=409, detail="Email already registered")
         
         # 3. Hash and create
         hashed = hash_password(data.password)
-        user = User(email=data.email, hashed_password=hashed)
+        user = User(email=email_lower, hashed_password=hashed)
         db.add(user)
         
         # 4. Save and Commit
@@ -49,7 +50,8 @@ async def register_user(db: AsyncSession, data: UserCreate) -> User:
 
 async def login_user(db: AsyncSession, data: UserLogin) -> dict:
     try:
-        result = await db.execute(select(User).where(User.email == data.email))
+        email_lower = data.email.lower().strip()
+        result = await db.execute(select(User).where(User.email == email_lower))
         user: User | None = result.scalar_one_or_none()
         if not user or not verify_password(data.password, user.hashed_password):
             raise HTTPException(
