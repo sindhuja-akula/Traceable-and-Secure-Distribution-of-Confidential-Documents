@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
 from fastapi import HTTPException, status
 
 from backend.models.user_model import User
@@ -23,7 +23,7 @@ async def register_user(db: AsyncSession, data: UserCreate) -> User:
 
         # 2. Check for existing user
         email_lower = data.email.lower().strip()
-        existing = await db.execute(select(User).where(User.email == email_lower))
+        existing = await db.execute(select(User).where(func.lower(User.email) == email_lower))
         if existing.scalar_one_or_none():
             raise HTTPException(status_code=409, detail="Email already registered")
         
@@ -51,7 +51,7 @@ async def register_user(db: AsyncSession, data: UserCreate) -> User:
 async def login_user(db: AsyncSession, data: UserLogin) -> dict:
     try:
         email_lower = data.email.lower().strip()
-        result = await db.execute(select(User).where(User.email == email_lower))
+        result = await db.execute(select(User).where(func.lower(User.email) == email_lower))
         user: User | None = result.scalar_one_or_none()
         if not user or not verify_password(data.password, user.hashed_password):
             raise HTTPException(

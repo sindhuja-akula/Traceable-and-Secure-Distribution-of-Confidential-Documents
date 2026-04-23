@@ -28,11 +28,12 @@ export default function Login() {
     }
     setLoading(true);
     try {
+      const normalizedEmail = email.toLowerCase().trim();
       if (mode === 'login') {
-        await authService.login(email, password);
+        await authService.login(normalizedEmail, password);
         navigate('/dashboard');
       } else {
-        await authService.register(email, password);
+        await authService.register(normalizedEmail, password);
         setMode('login');
         setError('');
         alert('Account created! Please log in.');

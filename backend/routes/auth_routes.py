@@ -8,7 +8,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, func
 from pydantic import BaseModel, EmailStr
 
 from backend.database import get_db
@@ -100,12 +100,12 @@ async def forgot_password(data: ForgotPasswordRequest, db: AsyncSession = Depend
     try:
         user_email = data.email.lower().strip()
         # 1. Verify user exists
-        result = await db.execute(select(User).where(User.email == user_email))
+        result = await db.execute(select(User).where(func.lower(User.email) == user_email))
         if not result.scalar_one_or_none():
             raise HTTPException(status_code=404, detail="Email not found")
 
         # 2. Cleanup old OTPs for this email
-        await db.execute(delete(OTPVerification).where(OTPVerification.email == user_email))
+        await db.execute(delete(OTPVerification).where(func.lower(OTPVerification.email) == user_email))
 
         # 3. Generate 6-digit OTP
         otp = "".join(random.choices(string.digits, k=6))
@@ -133,7 +133,7 @@ async def verify_otp(data: VerifyOtpRequest, db: AsyncSession = Depends(get_db))
         user_email = data.email.lower().strip()
         result = await db.execute(
             select(OTPVerification).where(
-                OTPVerification.email == user_email, 
+                func.lower(OTPVerification.email) == user_email, 
                 OTPVerification.otp_code == data.otp_code
             )
         )
@@ -158,7 +158,7 @@ async def reset_password(data: ResetPasswordRequest, db: AsyncSession = Depends(
         # 1. Check if OTP was verified
         result = await db.execute(
             select(OTPVerification).where(
-                OTPVerification.email == user_email,
+                func.lower(OTPVerification.email) == user_email,
                 OTPVerification.otp_code == data.otp_code,
                 OTPVerification.is_verified == True
             )
@@ -170,11 +170,11 @@ async def reset_password(data: ResetPasswordRequest, db: AsyncSession = Depends(
         # 2. Update user password
         hashed = hash_password(data.new_password)
         await db.execute(
-            update(User).where(User.email == user_email).values(hashed_password=hashed)
+            update(User).where(func.lower(User.email) == user_email).values(hashed_password=hashed)
         )
         
         # 3. Cleanup: Delete the used OTP
-        await db.execute(delete(OTPVerification).where(OTPVerification.email == user_email))
+        await db.execute(delete(OTPVerification).where(func.lower(OTPVerification.email) == user_email))
         
         await db.commit()
         logger.info("Password reset successfully for %s", user_email)
