@@ -1,0 +1,14 @@
+{
+  "name": "secure-docs-root",
+  "version": "1.0.0",
+  "scripts": {
+    "setup": "npm install --prefix frontend && python -m venv .venv && .\\.venv\\Scripts\\python -m pip install --upgrade pip setuptools wheel && .\\.venv\\Scripts\\pip install -r backend/requirements.txt",
+    "install:all": "npm run setup",
+    "backend": ".\\.venv\\Scripts\\python run.py",
+    "frontend": "npm run dev --prefix frontend",
+    "start": "npx concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
